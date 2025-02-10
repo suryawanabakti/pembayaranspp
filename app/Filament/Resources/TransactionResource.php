@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\TransactionResource\Pages;
 use App\Filament\Resources\TransactionResource\RelationManagers;
+use App\Models\Kelas;
 use App\Models\Transaction;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
@@ -32,7 +33,8 @@ class TransactionResource extends Resource
                     "PENDING" => "PENDING",
                     "SUCCESS" => "SUCCESS",
                     "FAILED" => "FAILED",
-                ])
+                ]),
+                Select::make('kelas_id')->options(Kelas::all()->pluck('nama', 'id'))->required(),
             ]);
     }
 

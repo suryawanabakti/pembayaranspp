@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\SiswaResource\Pages;
 use App\Filament\Resources\SiswaResource\RelationManagers;
 use App\Filament\Resources\SiswaResource\RelationManagers\TransactionRelationManager;
+use App\Models\Jurusan;
 use App\Models\Kelas;
 use App\Models\Siswa;
 use App\Services\Fonnte;
@@ -41,8 +42,9 @@ class SiswaResource extends Resource
                         TextInput::make('name')->label('Nama')->required(),
                         TextInput::make('email')->unique()->label('Email')->unique(ignoreRecord: true)->required(),
                     ]),
-                    Grid::make(1)->schema([
+                    Grid::make(2)->schema([
                         Select::make('kelas_id')->label('Kelas')->options(Kelas::all()->pluck('nama', 'id'))->required(),
+                        Select::make('jurusan_id')->label('Jurusan')->options(Jurusan::all()->pluck('nama', 'id'))->required(),
                     ]),
                     Grid::make(2)->schema([
                         TextInput::make('username')->label('NIS')->unique(ignoreRecord: true)->required(),
@@ -65,6 +67,8 @@ class SiswaResource extends Resource
                 TextEntry::make('user.username')->label("NIM"),
                 TextEntry::make('nohp'),
                 TextEntry::make('nohp_orangtua'),
+                TextEntry::make('jurusan.nama'),
+                TextEntry::make('kelas.nama'),
             ]);
     }
 

@@ -43,11 +43,11 @@ class Login extends BaseAuth
     protected function getLoginFormComponent(): Component
     {
         return TextInput::make('username')
-            ->label('NIS / Username')
+            ->label('Username')
             ->required()
             ->autocomplete()
             ->autofocus()
-            ->placeholder("Masukkan NIS atau username anda")
+            ->placeholder("Masukkan username anda")
             ->extraInputAttributes(['tabindex' => 1]);
     }
 

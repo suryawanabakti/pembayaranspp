@@ -18,12 +18,13 @@ class PembayaranController extends Controller
 
     public function create()
     {
-        $kelas = Kelas::all();
+        $kelas = Kelas::where('jurusan_id', auth()->user()->siswa->jurusan_id)->get();
         return view('pembayaran.create', ["kelas" => $kelas]);
     }
     public function checkout(Request $request)
     {
         // Validasi input
+
         $request->validate([
             'kelas' => 'required',
             'semester' => 'required',
@@ -31,9 +32,11 @@ class PembayaranController extends Controller
 
         // Simpan pembayaran ke database (opsional)
 
+        $time = "INV-" . time();
+
         $pembayaran = Transaction::create([
             'user_id' => auth()->user()->id,
-            'order_id' => time(),
+            'order_id' => $time,
             'kelas_id' => $request->kelas,
             'semester' => $request->semester,
             'status' => 'PENDING',
@@ -47,9 +50,10 @@ class PembayaranController extends Controller
         Config::$is3ds = config('midtrans.is_3ds');
 
         // Buat transaksi dengan Midtrans
+
         $params = [
             'transaction_details' => [
-                'order_id' => $pembayaran->id,
+                'order_id' => $time,
                 'gross_amount' => $pembayaran->harga,
             ],
             'customer_details' => [
@@ -62,7 +66,7 @@ class PembayaranController extends Controller
             $snapToken = Snap::getSnapToken($params);
             return view('pembayaran.checkout', compact('snapToken', 'pembayaran'));
         } catch (\Exception $e) {
-            return "ERROR";
+            return $e;
             return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }

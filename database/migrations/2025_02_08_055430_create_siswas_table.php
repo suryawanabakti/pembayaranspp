@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('nohp_orangtua')->nullable();
             $table->text('alamat')->nullable();
             $table->foreignId('kelas_id')->constrained('kelas')->cascadeOnDelete();
+            $table->foreignId('jurusan_id')->constrained('jurusan')->cascadeOnDelete();
             $table->timestamps();
         });
     }
