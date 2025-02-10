@@ -11,10 +11,8 @@ use Illuminate\Database\Eloquent\Model;
 class CreateSiswa extends CreateRecord
 {
     protected static string $resource = SiswaResource::class;
-
-    protected function handleRecordCreation(array $data): Model
+    protected function mutateFormDataBeforeCreate(array $data): array
     {
-
         $user = User::create([
             'name' => $data['name'],
             'username' => $data['username'],
@@ -23,8 +21,7 @@ class CreateSiswa extends CreateRecord
         ]);
 
         $data['user_id'] = $user->id;
-
-        return static::getModel()::create($data);
+        return $data;
     }
 
     protected function getRedirectUrl(): string

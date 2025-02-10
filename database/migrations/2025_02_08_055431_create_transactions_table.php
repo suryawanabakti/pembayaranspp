@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->string('order_id')->nullable();
             $table->foreignId('kelas_id')->constrained('kelas')->cascadeOnDelete();
-            $table->integer('semester');
+            $table->integer('bulan');
             $table->enum('status', ['PENDING', 'SUCCESS', 'FAILED'])->default('PENDING');
             $table->integer('harga')->default(10000);
             $table->timestamps();

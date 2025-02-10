@@ -25,13 +25,31 @@
 
         <!-- Pilihan Semester -->
         <div>
-            <x-input-label for="semester" :value="__('Pilih Semester')" />
-            <select id="semester" name="semester"
+            <x-input-label for="bulan" :value="__('Pilih bulan')" />
+            <select id="bulan" name="bulan"
                 class="mt-1 block w-full p-2 border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-300">
-                <option value="" disabled selected>-- Pilih Semester --</option>
-                @for ($i = 1; $i <= 2; $i++)
-                    <option value="{{ $i }}">Semester {{ $i }}</option>
-                @endfor
+                <option value="" disabled selected>-- Pilih bulan --</option>
+
+                @php
+                    $months = [
+                        1 => 'Januari',
+                        2 => 'Februari',
+                        3 => 'Maret',
+                        4 => 'April',
+                        5 => 'Mei',
+                        6 => 'Juni',
+                        7 => 'Juli',
+                        8 => 'Agustus',
+                        9 => 'September',
+                        10 => 'Oktober',
+                        11 => 'November',
+                        12 => 'Desember',
+                    ];
+                @endphp
+
+                @foreach ($months as $num => $name)
+                    <option value="{{ $num }}">{{ $name }}</option>
+                @endforeach
             </select>
         </div>
 

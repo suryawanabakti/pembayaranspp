@@ -42,10 +42,26 @@ class TransactionResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('user.name'),
+                TextColumn::make('created_at')->label('Tanggal & Waktu'),
+                TextColumn::make('user.name')->label('Nama'),
                 TextColumn::make('order_id'),
                 TextColumn::make('user.siswa.kelas.nama')->label("Kelas"),
-                TextColumn::make('semester')->label("Semester"),
+                TextColumn::make('bulan')
+                    ->label("Bulan")
+                    ->formatStateUsing(fn($state) => [
+                        1 => 'Januari',
+                        2 => 'Februari',
+                        3 => 'Maret',
+                        4 => 'April',
+                        5 => 'Mei',
+                        6 => 'Juni',
+                        7 => 'Juli',
+                        8 => 'Agustus',
+                        9 => 'September',
+                        10 => 'Oktober',
+                        11 => 'November',
+                        12 => 'Desember',
+                    ][$state] ?? 'Tidak Valid'),
                 TextColumn::make('status'),
             ])
             ->filters([

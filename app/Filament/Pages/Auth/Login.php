@@ -53,7 +53,6 @@ class Login extends BaseAuth
 
     protected function getCredentialsFromFormData(array $data): array
     {
-
         return [
             'username' => $data['username'],
             'password'  => $data['password'],

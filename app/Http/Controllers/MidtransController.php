@@ -13,7 +13,7 @@ class MidtransController extends Controller
 
         Fonnte::sendWa(auth()->user()->siswa->nohp_orangtua, "Assalamualaikum warahmatullahi wabarakatuh \nSelamat! Pembayaran SPP untuk Kelas 2 Semester 2 dan biaya formal telah berhasil diproses. Terima kasih atas kepercayaannya. 🌟");
 
-        Transaction::where('id', $request->order_id)->update([
+        Transaction::where('order_id', $request->order_id)->update([
             'status' => "SUCCESS"
         ]);
 

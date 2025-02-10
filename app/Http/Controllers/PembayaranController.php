@@ -27,7 +27,7 @@ class PembayaranController extends Controller
 
         $request->validate([
             'kelas' => 'required',
-            'semester' => 'required',
+            'bulan' => 'required',
         ]);
 
         // Simpan pembayaran ke database (opsional)
@@ -38,7 +38,7 @@ class PembayaranController extends Controller
             'user_id' => auth()->user()->id,
             'order_id' => $time,
             'kelas_id' => $request->kelas,
-            'semester' => $request->semester,
+            'bulan' => $request->bulan,
             'status' => 'PENDING',
             'harga' => 350000
         ]);
