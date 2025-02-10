@@ -18,9 +18,9 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withExceptions(function (Exceptions $exceptions) {
         //
     })
-    // ->withSchedule(function (Schedule $schedule) {
-    //     $setting = Setting::first();
-    //     $schedule->command('bill:notify')
-    //         ->monthlyOn($setting->tanggal ?? 15, $setting->jam ?? "06:00")->withoutOverlapping();
-    // })
+    ->withSchedule(function (Schedule $schedule) {
+        $setting = Setting::first();
+        $schedule->command('bill:notify')
+            ->monthlyOn($setting->tanggal ?? 15, $setting->jam ?? "06:00")->withoutOverlapping();
+    })
     ->create();
