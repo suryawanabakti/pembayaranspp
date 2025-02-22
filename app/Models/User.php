@@ -11,10 +11,9 @@ class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
-
-    public function siswa()
+    public function kelas()
     {
-        return $this->hasOne(Siswa::class);
+        return $this->belongsTo(Kelas::class);
     }
 
     public function getAuthIdentifierName()
@@ -27,12 +26,7 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'username',
-        'password',
-    ];
+    protected $guarded = ['id'];
 
     /**
      * The attributes that should be hidden for serialization.

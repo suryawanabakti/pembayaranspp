@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Setting;
 use App\Models\Siswa;
 use Illuminate\Console\Command;
 use App\Models\User;
@@ -18,7 +19,8 @@ class SendBillNotification extends Command
     {
         $today = Carbon::now()->day;
 
-        if ($today == 10) {
+        $setting = Setting::first();
+        if ($today == $setting->tanggal) {
             $users = Siswa::all();
 
             foreach ($users as $user) {

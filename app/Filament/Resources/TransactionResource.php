@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\TransactionResource\Pages;
 use App\Filament\Resources\TransactionResource\RelationManagers;
+use App\Livewire\ChartTranksaksiPerBulan;
 use App\Models\Kelas;
 use App\Models\Transaction;
 use Filament\Forms;
@@ -12,6 +13,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -20,7 +22,10 @@ class TransactionResource extends Resource
 {
     protected static ?string $model = Transaction::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-document';
+    protected static ?string $navigationLabel = 'Laporan';
+    protected static ?string $pluralModelLabel = 'Laporan';
+
     public static function canCreate(): bool
     {
         return false;
@@ -38,14 +43,19 @@ class TransactionResource extends Resource
             ]);
     }
 
+    public static function canAccess(): bool
+    {
+        return request()->user()->role === 'admin';
+    }
     public static function table(Table $table): Table
     {
         return $table
+
             ->columns([
                 TextColumn::make('created_at')->label('Tanggal & Waktu'),
                 TextColumn::make('user.name')->label('Nama'),
-                TextColumn::make('order_id'),
-                TextColumn::make('user.siswa.kelas.nama')->label("Kelas"),
+                TextColumn::make('user.kelas.nama')->label('Kelas'),
+
                 TextColumn::make('bulan')
                     ->label("Bulan")
                     ->formatStateUsing(fn($state) => [
@@ -62,10 +72,16 @@ class TransactionResource extends Resource
                         11 => 'November',
                         12 => 'Desember',
                     ][$state] ?? 'Tidak Valid'),
-                TextColumn::make('status'),
+                TextColumn::make('harga')->label('Jumlah Pembayaran')->numeric(),
+                TextColumn::make('status')->searchable()->sortable()->badge(),
             ])
             ->filters([
-                //
+                SelectFilter::make('status')
+                    ->options([
+                        'pending' => 'Pending',
+                        'success' => 'Success',
+                        'failed' => 'Failed',
+                    ]),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -83,6 +99,8 @@ class TransactionResource extends Resource
             //
         ];
     }
+
+
 
     public static function getPages(): array
     {

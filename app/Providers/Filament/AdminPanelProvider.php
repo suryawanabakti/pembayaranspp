@@ -3,8 +3,11 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Auth\Login;
+use App\Filament\Pages\ListPembayaran;
+use App\Filament\Pages\PembayaranPage;
 use App\Filament\Pages\Settings;
 use App\Filament\Widgets\StatsOverview;
+use App\Livewire\ChartTranksaksiPerBulan;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -29,15 +32,20 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->login()
-            // ->login(Login::class)
+            ->login(Login::class)
+            ->brandLogo(asset('bg.png'))
+            ->brandLogoHeight('3rem')
+            // ->spa()
+            ->sidebarCollapsibleOnDesktop(true)
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Green,
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
                 Pages\Dashboard::class,
+                PembayaranPage::class,
+                ListPembayaran::class,
                 Settings::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
@@ -45,6 +53,7 @@ class AdminPanelProvider extends PanelProvider
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,
                 StatsOverview::class,
+                ChartTranksaksiPerBulan::class,
             ])
             ->middleware([
                 EncryptCookies::class,

@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\KelasResource\Pages;
 use App\Filament\Resources\KelasResource\RelationManagers;
+use App\Filament\Resources\UserRelationManagerResource\RelationManagers\UsersRelationManager;
 use App\Models\Jurusan;
 use App\Models\Kelas;
 use App\Models\TahunAjaran;
@@ -21,16 +22,22 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class KelasResource extends Resource
 {
     protected static ?string $model = Kelas::class;
-
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    public static function canAccess(): bool
+    {
+        return request()->user()->role === 'admin';
+    }
+    protected static ?string $navigationIcon = 'heroicon-o-folder';
     protected static ?string $navigationGroup = 'Master Data';
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Select::make('tahun_ajaran_id')->options(TahunAjaran::all()->pluck('tahun_ajaran', 'id'))->required(),
-                Select::make('jurusan_id')->options(Jurusan::all()->pluck('nama', 'id'))->required(),
                 TextInput::make('nama')->required(),
+                TextInput::make('tahun_ajaran')->required(),
+                Select::make('jurusan')->options([
+                    "Administrasi Perkantoran" => "Administrasi Perkantoran",
+                    "Teknik Komputer Jaringan" => "Teknik Komputer Jaringan"
+                ]),
             ]);
     }
 
@@ -38,9 +45,9 @@ class KelasResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('nama'),
-                TextColumn::make('jurusan.nama'),
-                TextColumn::make('tahunAjaran.tahun_ajaran'),
+                TextColumn::make('nama')->searchable(),
+                TextColumn::make('jurusan')->searchable(),
+                TextColumn::make('tahun_ajaran')->searchable(),
             ])
             ->filters([
                 //
@@ -59,7 +66,7 @@ class KelasResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            UsersRelationManager::class
         ];
     }
 

@@ -16,9 +16,13 @@ use Illuminate\Http\Request;
 class Settings extends Page
 {
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
-
+    public static function canAccess(): bool
+    {
+        return request()->user()->role === 'admin';
+    }
     protected static string $view = 'filament.pages.settings';
     protected static ?string $navigationGroup = 'Pengaturan';
+    protected static ?string $navigationLabel = 'Form Notifikasi';
     public ?array $data = [];
     // Tambahkan properti untuk menyimpan nilai form
     public ?string $tanggal = null;

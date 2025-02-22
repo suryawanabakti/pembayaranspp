@@ -42,19 +42,21 @@ class Login extends BaseAuth
 
     protected function getLoginFormComponent(): Component
     {
-        return TextInput::make('username')
-            ->label('Username')
+        return TextInput::make('login')
+            ->label('NIS / Username')
             ->required()
             ->autocomplete()
             ->autofocus()
-            ->placeholder("Masukkan username anda")
+            ->placeholder("Masukkan NIS Atau Username Anda")
             ->extraInputAttributes(['tabindex' => 1]);
     }
 
     protected function getCredentialsFromFormData(array $data): array
     {
+        $login_type = filter_var($data['login'], FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
         return [
-            'username' => $data['username'],
+            $login_type => $data['login'],
             'password'  => $data['password'],
         ];
     }

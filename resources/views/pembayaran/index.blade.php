@@ -20,7 +20,7 @@
                                     <th class="px-6 py-3 text-left text-sm font-semibold border-b">Tanggal Pembayaran
                                     </th>
                                     <th class="px-6 py-3 text-left text-sm font-semibold border-b">Kelas</th>
-                                    <th class="px-6 py-3 text-left text-sm font-semibold border-b">Semester</th>
+                                    <th class="px-6 py-3 text-left text-sm font-semibold border-b">Bulan</th>
                                     <th class="px-6 py-3 text-left text-sm font-semibold border-b">Harga</th>
                                     <th class="px-6 py-3 text-left text-sm font-semibold border-b">Status</th>
                                 </tr>
@@ -30,7 +30,7 @@
                                     <tr class="border-b hover:bg-gray-50">
                                         <td class="px-6 py-4">{{ $transaction->created_at->format('d M Y') }}</td>
                                         <td class="px-6 py-4">{{ $transaction->kelas->nama }}</td>
-                                        <td class="px-6 py-4">{{ $transaction->semester }}</td>
+                                        <td class="px-6 py-4">{{ $transaction->bulan }}</td>
                                         <td class="px-6 py-4">Rp.{{ number_format($transaction->harga) }}</td>
                                         <td class="px-6 py-4">
                                             <span

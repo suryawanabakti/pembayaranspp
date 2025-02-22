@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\SiswaResource\RelationManagers;
+namespace App\Filament\Resources\UserRelationManagerResource\RelationManagers;
 
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -10,15 +10,16 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class TransactionRelationManager extends RelationManager
+class UsersRelationManager extends RelationManager
 {
-    protected static string $relationship = 'transaction';
+    protected static string $relationship = 'users';
 
     public function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('order_id')
+
+                Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
             ]);
@@ -27,12 +28,10 @@ class TransactionRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('order_id')
+            ->recordTitleAttribute('name')
             ->columns([
-                Tables\Columns\TextColumn::make('order_id'),
-                Tables\Columns\TextColumn::make('kelas.nama'),
-                Tables\Columns\TextColumn::make('semester'),
-                Tables\Columns\TextColumn::make('status'),
+                Tables\Columns\TextColumn::make('username')->label('NIS'),
+                Tables\Columns\TextColumn::make('name'),
             ])
             ->filters([
                 //

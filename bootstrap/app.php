@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Setting;
+use Carbon\Carbon;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -20,7 +21,8 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withSchedule(function (Schedule $schedule) {
         $setting = Setting::first();
+        $formattedTime = Carbon::createFromFormat("H:i:s", $setting->jam ?? "00:00:00")->format("H:i");
         $schedule->command('bill:notify')
-            ->monthlyOn($setting->tanggal ?? 15, $setting->jam ?? "06:00")->withoutOverlapping();
+            ->monthlyOn($setting->tanggal ?? 15, $formattedTime ?? "06:00")->withoutOverlapping();
     })
     ->create();

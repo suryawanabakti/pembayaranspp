@@ -12,19 +12,29 @@ class PembayaranController extends Controller
 {
     public function index()
     {
+
+        if (!auth()->user()->siswa) {
+            return redirect('/admin');
+        }
         $transactions = Transaction::orderBy('created_at', 'DESC')->where('user_id', auth()->user()->id)->get();
         return view('pembayaran.index', compact('transactions'));
     }
 
     public function create()
     {
+        if (auth()->user()->role == 'admin') {
+            return redirect('/admin');
+        }
         $kelas = Kelas::where('jurusan_id', auth()->user()->siswa->jurusan_id)->get();
         return view('pembayaran.create', ["kelas" => $kelas]);
     }
+
     public function checkout(Request $request)
     {
         // Validasi input
-
+        if (auth()->user()->role == 'admin') {
+            return redirect('/admin');
+        }
         $request->validate([
             'kelas' => 'required',
             'bulan' => 'required',
