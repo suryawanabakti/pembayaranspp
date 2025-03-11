@@ -20,9 +20,9 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withSchedule(function (Schedule $schedule) {
-        $setting = Setting::first();
-        $formattedTime = Carbon::createFromFormat("H:i:s", $setting->jam ?? "00:00:00")->format("H:i");
-        $schedule->command('bill:notify')
-            ->monthlyOn($setting->tanggal ?? 15, $formattedTime ?? "06:00")->withoutOverlapping();
+        // $setting = Setting::first();
+        // $formattedTime = Carbon::createFromFormat("H:i:s", $setting->jam ?? "00:00:00")->format("H:i");
+        // $schedule->command('bill:notify')
+        //     ->monthlyOn($setting->tanggal ?? 15, $formattedTime ?? "06:00")->withoutOverlapping();
     })
     ->create();
