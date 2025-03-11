@@ -30,6 +30,6 @@ class AppServiceProvider extends ServiceProvider
         Config::$isSanitized = true;
         Config::$is3ds = true;
 
-        $this->app->bind(LoginResponseContract::class, \App\Http\Responses\LoginResponse::class);
+        // $this->app->bind(LoginResponseContract::class, \App\Http\Responses\LoginResponse::class);
     }
 }

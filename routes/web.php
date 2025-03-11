@@ -9,7 +9,10 @@ Route::redirect('/', '/admin/login');
 
 Route::redirect('/dashboard', '/admin/login');
 
+Route::get('/pdf', [PembayaranController::class, 'pdf'])->name('pembayaran.pdf');
+
 Route::middleware('auth')->group(function () {
+    
     Route::get('/pembayaran', [PembayaranController::class, 'index'])->name('pembayaran.index');
     Route::get('/pembayaran/create', [PembayaranController::class, 'create'])->name('pembayaran.create');
     Route::post('/pembayaran/checkout', [PembayaranController::class, 'checkout'])->name('pembayaran.checkout');
@@ -20,6 +23,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
 });
 
 require __DIR__ . '/auth.php';

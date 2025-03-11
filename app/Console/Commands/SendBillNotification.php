@@ -21,17 +21,17 @@ class SendBillNotification extends Command
 
         $setting = Setting::first();
         if ($today == $setting->tanggal) {
-            $users = Siswa::all();
+            $users = User::all();
 
             foreach ($users as $user) {
                 if ($user->nohp_orangtua) {
-                    Fonnte::sendWa($user->nohp_orangtua, "Harap melakukan pembayaran SPP");
+                    Fonnte::sendWa($user->nohp_orangtua, "Harap melakukan pembayaran SPP sebesar Rp. " . number_format($setting->jumlah_pembayaran, 0, ',', '.') . " sebelum tanggal $setting->tanggal setiap bulannya. Terima kasih.");
                 }
             }
 
             $this->info('Notifikasi tagihan telah dikirim.');
         } else {
-            $this->info('Hari ini bukan tanggal 12, tidak ada notifikasi.');
+            $this->info('Hari ini bukan tanggal , tidak ada notifikasi.');
         }
     }
 }

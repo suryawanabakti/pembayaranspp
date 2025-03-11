@@ -32,12 +32,13 @@ class KelasResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('nama')->required(),
+                TextInput::make('nama')->required()->label('Kelas'),
                 TextInput::make('tahun_ajaran')->required(),
                 Select::make('jurusan')->options([
                     "Administrasi Perkantoran" => "Administrasi Perkantoran",
                     "Teknik Komputer Jaringan" => "Teknik Komputer Jaringan"
                 ]),
+                // TextInput::make('level')->numeric()->required()->default(1),
             ]);
     }
 
@@ -45,7 +46,7 @@ class KelasResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('nama')->searchable(),
+                TextColumn::make('nama')->searchable()->label('Kelas'),
                 TextColumn::make('jurusan')->searchable(),
                 TextColumn::make('tahun_ajaran')->searchable(),
             ])

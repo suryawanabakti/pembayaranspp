@@ -3,13 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kelas;
+use App\Models\Setting;
 use App\Models\Transaction;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Midtrans\Config;
 use Midtrans\Snap;
 
 class PembayaranController extends Controller
 {
+    public function pdf()
+    {
+        $data = Transaction::all();
+        $pdf = Pdf::loadView('pembayaran.pdf', compact('data'));
+        return $pdf->stream();
+    }
+
     public function index()
     {
 
@@ -35,6 +44,7 @@ class PembayaranController extends Controller
         if (auth()->user()->role == 'admin') {
             return redirect('/admin');
         }
+
         $request->validate([
             'kelas' => 'required',
             'bulan' => 'required',
@@ -43,14 +53,14 @@ class PembayaranController extends Controller
         // Simpan pembayaran ke database (opsional)
 
         $time = "INV-" . time();
-
+        $setting = Setting::first();
         $pembayaran = Transaction::create([
             'user_id' => auth()->user()->id,
             'order_id' => $time,
             'kelas_id' => $request->kelas,
             'bulan' => $request->bulan,
             'status' => 'PENDING',
-            'harga' => 350000
+            'harga' => $setting->jumlah_pembayaran ?? 250000,
         ]);
 
         // Konfigurasi Midtrans
@@ -60,7 +70,6 @@ class PembayaranController extends Controller
         Config::$is3ds = config('midtrans.is_3ds');
 
         // Buat transaksi dengan Midtrans
-
         $params = [
             'transaction_details' => [
                 'order_id' => $time,

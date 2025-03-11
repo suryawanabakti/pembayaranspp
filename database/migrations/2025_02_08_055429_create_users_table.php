@@ -16,12 +16,14 @@ return new class extends Migration
             $table->string('name');
             $table->string('username')->unique(); // NIS
             $table->string('email')->unique();
-            $table->enum('role', ['admin', 'siswa']);
+            $table->enum('role', ['admin', 'siswa', 'kepala'])->default('siswa');
             $table->string('password');
             // Siswa
             $table->string('nohp_orangtua')->nullable();
             $table->text('alamat')->nullable();
             $table->foreignId('kelas_id')->nullable()->constrained('kelas')->cascadeOnDelete();
+            $table->string('jurusan')->nullable();
+            $table->string('tahun_ajaran')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

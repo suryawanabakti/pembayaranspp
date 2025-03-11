@@ -16,6 +16,7 @@ use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\View\PanelsRenderHook;
 use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -30,11 +31,16 @@ class AdminPanelProvider extends PanelProvider
     {
         return $panel
             ->default()
+            // ->renderHook(PanelsRenderHook::AUTH_LOGIN_FORM_BEFORE, fn() => )
+            ->renderHook(PanelsRenderHook::TOPBAR_START, fn() => view('filament.topbar.start'))
+            ->renderHook(PanelsRenderHook::BODY_END, fn() => view('filament.footer'))
             ->id('admin')
+            // ->sidebarWidth()
             ->path('admin')
+            // ->viteTheme('resources/css/filament/admin/theme.css')
             ->login(Login::class)
             ->brandLogo(asset('bg.png'))
-            ->brandLogoHeight('3rem')
+            ->brandLogoHeight('4rem')
             // ->spa()
             ->sidebarCollapsibleOnDesktop(true)
             ->colors([
@@ -51,7 +57,7 @@ class AdminPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
+                // Widgets\FilamentInfoWidget::class,
                 StatsOverview::class,
                 ChartTranksaksiPerBulan::class,
             ])

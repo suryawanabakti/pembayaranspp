@@ -16,24 +16,33 @@ use Illuminate\Http\Request;
 class Settings extends Page
 {
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
+
     public static function canAccess(): bool
     {
         return request()->user()->role === 'admin';
     }
+
     protected static string $view = 'filament.pages.settings';
     protected static ?string $navigationGroup = 'Pengaturan';
-    protected static ?string $navigationLabel = 'Form Notifikasi';
+    protected static ?string $navigationLabel = 'Pengingat Pembayaran';
+    protected static ?string $title = 'Pengingat Pembayaran';
+    protected static ?string $modelLabel = 'Pengingat Pembayaran';
+    protected static ?string $pluralModelLabel = 'Pengingat Pembayaran';
+
     public ?array $data = [];
     // Tambahkan properti untuk menyimpan nilai form
     public ?string $tanggal = null;
     public ?string $jam = null;
+    public ?int $jumlah_pembayaran = 250000;
     public function mount()
     {
         $setting = Setting::first();
+
         if ($setting) {
             $this->form->fill([
                 'tanggal' => $setting->tanggal,
                 'jam' => $setting->jam,
+                'jumlah_pembayaran' => $setting->jumlah_pembayaran,
             ]);
         }
     }
@@ -43,9 +52,10 @@ class Settings extends Page
 
         return $form
             ->schema([
-                Section::make('Pengaturan Jadwal')->schema([
+                Section::make('Form Pengingat Pembayaran')->schema([
                     TextInput::make('tanggal')->numeric()->required(),
                     TimePicker::make('jam')->required(),
+                    TextInput::make('jumlah_pembayaran')->required()->numeric(),
                 ])
             ])
             ->columns(3);

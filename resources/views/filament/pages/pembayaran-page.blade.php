@@ -4,11 +4,15 @@
 
         <!-- Pilihan Kelas -->
         <div>
+            <x-input-label for="kelas" :value="__('Jurusan')" />
+            <x-text-input value="{{auth()->user()->jurusan}}" disabled className="w-full block mt-1" />
+        </div>
+        <div>
             <x-input-label for="kelas" :value="__('Pilih Kelas')" />
             <select id="kelas" name="kelas"
                 class="mt-1 block w-full p-2 border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-300">
                 <option value="" disabled selected>-- Pilih Kelas --</option>
-                @foreach (\App\Models\Kelas::all() as $data)
+                @foreach (\App\Models\Kelas::where('jurusan', auth()->user()->jurusan)->get() as $data)
                     <option value="{{ $data->id }}">{{ $data->nama }}</option>
                 @endforeach
             </select>
